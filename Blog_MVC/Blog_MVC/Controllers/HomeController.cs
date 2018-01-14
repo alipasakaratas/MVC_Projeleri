@@ -6,12 +6,25 @@ using System.Web.Mvc;
 
 namespace Blog_MVC.Controllers
 {
+    using Models;
+    using App_Classes;
     public class HomeController : Controller
     {
+        SugarBlogContext context = new SugarBlogContext();
         // GET: Home
         public ActionResult Index()
         {
             return View();
+        }
+
+        public PartialViewResult MakaleListeleWidget()
+        {
+            return PartialView(context.Makales.ToList());
+        }
+
+        public PartialViewResult PopulerMakalelerWidget() {
+            var model = context.Makales.OrderByDescending(x => x.EklenmeTarihi).Take(3).ToList();
+            return PartialView(model);
         }
     }
 }
